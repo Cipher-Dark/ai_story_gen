@@ -31,8 +31,8 @@ class _OutputDisplayState extends State<OutputDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    String selectedThem = this.selectedTheme;
-    String selectedGenr = this.selectedGenre;
+    // String selectedThem = this.selectedTheme;
+    // String selectedGenr = this.selectedGenre;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
@@ -45,11 +45,11 @@ class _OutputDisplayState extends State<OutputDisplay> {
           style: const TextStyle(fontSize: 16.0),
         ),
       ),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: _generateStory(data, selectedThem,
-            selectedGenr), // Refresh content on button press
-        child: Icon(Icons.refresh),
-      ),
+      // floatingActionButton: const FloatingActionButton(
+      //   onPressed: _generateStory(data, selectedThem,
+      //       selectedGenr), // Refresh content on button press
+      //   child: Icon(Icons.refresh),
+      // ),
     );
   }
 }
