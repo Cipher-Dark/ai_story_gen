@@ -1,11 +1,12 @@
-import 'package:ai_story_gen/story_gen_service.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ai_story_gen/story_gen_service.dart';
+
 class OutputDisplay extends StatefulWidget {
-  final String data;
+  String data;
   final String selectedGenre;
   final String selectedTheme;
-  const OutputDisplay({
+  OutputDisplay({
     super.key,
     required this.data,
     required this.selectedGenre,
@@ -17,22 +18,33 @@ class OutputDisplay extends StatefulWidget {
 }
 
 class _OutputDisplayState extends State<OutputDisplay> {
-  void _generateStory(String data, String selectedGenre, String selectedTheme) {
+  String? data1;
+  bool _isLoading = false;
+  bool _isGenerate = false;
+  Future<void> _refreshStroy() async {
     setState(() {
-      (String data, String selectedGenre, String selectedTheme) async {
-        String? story = await StoryGenService.generateStory(
-          data,
-          selectedGenre,
-          selectedTheme,
-        );
-      };
+      _isLoading = true;
+      _isGenerate = true;
     });
+    try {
+      data1 = await StoryGenService.generateStory("${widget.data} refresh it ",
+          widget.selectedGenre, widget.selectedTheme);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to refresh.')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // String selectedThem = this.selectedTheme;
     // String selectedGenr = this.selectedGenre;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
@@ -40,16 +52,20 @@ class _OutputDisplayState extends State<OutputDisplay> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Text(
-          widget.data,
-          style: const TextStyle(fontSize: 16.0),
-        ),
+        child: Column(children: [
+          Text(
+            _isGenerate ? data1.toString() : widget.data,
+            style: const TextStyle(fontSize: 16.0),
+          ),
+          ElevatedButton(onPressed: () {}, child: const Icon(Icons.add))
+        ]),
       ),
-      // floatingActionButton: const FloatingActionButton(
-      //   onPressed: _generateStory(data, selectedThem,
-      //       selectedGenr), // Refresh content on button press
-      //   child: Icon(Icons.refresh),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _refreshStroy,
+        child: _isLoading
+            ? const CircularProgressIndicator()
+            : const Icon(Icons.refresh),
+      ),
     );
   }
 }

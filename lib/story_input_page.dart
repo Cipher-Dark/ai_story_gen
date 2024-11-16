@@ -50,14 +50,14 @@ class _StoryInputPageState extends State<StoryInputPage> {
         MaterialPageRoute(
           builder: (context) => OutputDisplay(
             data: story.toString(),
-            selectedGenre: selectedGenre,
-            selectedTheme: selectedTheme,
+            selectedGenre: selectedGenre.toString(),
+            selectedTheme: selectedTheme.toString(),
           ),
         ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to generate story.')),
+        const SnackBar(content: Text('Failed to generate story.')),
       );
     } finally {
       setState(() {
@@ -85,17 +85,17 @@ class _StoryInputPageState extends State<StoryInputPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Enter a story prompt:', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
+            const Text('Enter a story prompt:', style: TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
             TextField(
               controller: _promptController,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'E.g., "A brave knight sets out on a quest..."',
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -105,7 +105,7 @@ class _StoryInputPageState extends State<StoryInputPage> {
                     selectedGenre = value!;
                   });
                 })),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                     child:
                         _buildDropdown('Theme', themes, selectedTheme, (value) {
@@ -115,13 +115,13 @@ class _StoryInputPageState extends State<StoryInputPage> {
                 })),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _generateStory,
                 child: _isLoading
-                    ? CircularProgressIndicator()
-                    : Text('Generate Story'),
+                    ? const CircularProgressIndicator()
+                    : const Text('Generate Story'),
               ),
             ),
           ],
@@ -135,8 +135,8 @@ class _StoryInputPageState extends State<StoryInputPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
-        SizedBox(height: 8),
+        Text(label, style: const TextStyle(fontSize: 16)),
+        const SizedBox(height: 8),
         DropdownButton<String>(
           isExpanded: true,
           value: selectedValue,

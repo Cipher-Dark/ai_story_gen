@@ -8,11 +8,13 @@ class StoryGenService {
     // const String apiUrl =
     //     'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
     final model = GenerativeModel(
-      model: 'gemini-1.5-flash',
+      model: 'gemini-1.5-pro',
       apiKey: apiKey,
     );
-    final response = await model.generateContent(
-        [Content.text("this is my prompt'$prompt', $genre and $theme")]);
+    final response = await model.generateContent([
+      Content.text(
+          "this is my prompt'$prompt' and set  $genre and $theme of  this story.")
+    ]);
 
     // final Map<String, dynamic> requestBody = {
     //   "prompt": prompt,
@@ -30,7 +32,6 @@ class StoryGenService {
     //   },
     //   body: json.encode(requestBody),
     // );
-    print(response.text);
     final data = response.text;
     return data;
     // const data = json.decode(response.text);
