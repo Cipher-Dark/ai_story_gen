@@ -41,8 +41,11 @@ class _OutputDisplayState extends State<OutputDisplay> {
       _isGenerate = true;
     });
     try {
-      data1 = await StoryGenService.generateStory("${widget.data} refresh it ",
-          widget.selectedGenre, widget.selectedTheme);
+      data1 = await StoryGenService.generateStory(
+          "${_textEditingController.text} refresh it ",
+          widget.selectedGenre,
+          widget.selectedTheme);
+      _textEditingController.text = data1!;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed to refresh.')),
@@ -77,7 +80,7 @@ class _OutputDisplayState extends State<OutputDisplay> {
               ? TextField(
                   controller: _textEditingController,
                   keyboardType: TextInputType.multiline,
-                  maxLines: null, // Allows dynamic height adjustment
+                  maxLines: null,
                   minLines: 1,
                   scrollController: _scrollController,
                   decoration: const InputDecoration(
