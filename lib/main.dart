@@ -1,7 +1,5 @@
-import 'dart:developer';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
-import 'story_input_page.dart';
+import 'screens/story_input_screen.dart';
 
 void main() {
   runApp(const StoryGenApp());

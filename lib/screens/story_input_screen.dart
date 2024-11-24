@@ -1,6 +1,6 @@
-import 'package:ai_story_gen/output_display.dart';
+import 'package:ai_story_gen/screens/output_screen.dart';
 import 'package:flutter/material.dart';
-import 'story_gen_service.dart'; // Import the API service
+import '../services/story_gen_service.dart'; // Import the API service
 
 class StoryInputPage extends StatefulWidget {
   final VoidCallback toggleTheme; // Callback to toggle theme

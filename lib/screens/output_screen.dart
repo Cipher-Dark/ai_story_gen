@@ -1,8 +1,8 @@
-import 'dart:ui';
+import 'dart:ffi';
 
+import 'package:ai_story_gen/screens/final_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ai_story_gen/story_gen_service.dart';
+import 'package:ai_story_gen/services/story_gen_service.dart';
 
 // ignore: must_be_immutable
 class OutputDisplay extends StatefulWidget {
@@ -35,6 +35,16 @@ class _OutputDisplayState extends State<OutputDisplay> {
     _textEditingController.text = !_isGenerate ? widget.data : data1.toString();
   }
 
+  void _finalScreen() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FinalScreen(
+                  data: _textEditingController.text,
+                )));
+    return;
+  }
+
   Future<void> _refreshStroy() async {
     setState(() {
       _isLoading = true;
@@ -65,13 +75,18 @@ class _OutputDisplayState extends State<OutputDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    // String selectedThem = this.selectedTheme;
-    // String selectedGenr = this.selectedGenre;
-
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.black87,
-        title: const Text("Story Generated"),
+        title: const Center(child: Text("Story Generated")),
+        actions: [
+          FloatingActionButton.small(
+            onPressed: () {
+              _finalScreen();
+            },
+            backgroundColor: Colors.grey,
+            child: const Icon(Icons.music_note),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
