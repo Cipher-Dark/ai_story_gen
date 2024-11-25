@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
+// ignore: must_be_immutable
 class FinalScreen extends StatefulWidget {
   String data;
   FinalScreen({
@@ -16,6 +18,7 @@ class FinalScreen extends StatefulWidget {
 
 class _FinalScreenState extends State<FinalScreen> {
   String selectLanguage = 'Hindi'; // Default Language
+  FlutterTts flutterTts = FlutterTts();
 
   final List<String> language = [
     'Hindi',
@@ -23,29 +26,76 @@ class _FinalScreenState extends State<FinalScreen> {
     'French',
     'Japanese',
   ];
+  void _speak(String data) async {
+    await flutterTts.speak(data);
+  }
+
+  void _stop() async {
+    await flutterTts.stop();
+  }
+
+  void _resume() {
+    flutterTts.continueHandler;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Listen")),
       ),
-      body: Row(
+      body: Column(
         children: [
           const SizedBox(width: 16),
-          Expanded(
-            child: _buildDropdown(
-              'Select Language',
-              language,
-              selectLanguage,
-              (value) {
-                setState(() {
-                  selectLanguage = value!;
-                });
-                log(selectLanguage);
-              },
-            ),
+          _buildDropdown(
+            'Select Language',
+            language,
+            selectLanguage,
+            (value) {
+              setState(() {
+                selectLanguage = value!;
+              });
+              log(selectLanguage);
+            },
           ),
-          const SizedBox(width: 16),
+          const SizedBox(height: 16),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Center(
+              child: Column(children: [
+                InkWell(
+                  onTap: () {
+                    _speak(widget.data);
+                  },
+                  child: const Icon(Icons.play_arrow),
+                ),
+                const Text("Start"),
+              ]),
+            ),
+            const SizedBox(width: 30),
+            Center(
+              child: Column(children: [
+                InkWell(
+                  onTap: () {
+                    _stop();
+                  },
+                  child: const Icon(Icons.stop),
+                ),
+                const Text("Stop"),
+              ]),
+            ),
+            const SizedBox(width: 30),
+            Center(
+              child: Column(children: [
+                InkWell(
+                  onTap: () {
+                    _resume();
+                  },
+                  child: const Icon(Icons.stop),
+                ),
+                const Text("Resume"),
+              ]),
+            ),
+          ]),
         ],
       ),
     );

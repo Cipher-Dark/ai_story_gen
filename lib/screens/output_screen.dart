@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ai_story_gen/screens/final_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_story_gen/services/story_gen_service.dart';
@@ -26,7 +24,7 @@ class _OutputDisplayState extends State<OutputDisplay> {
   bool _isGenerate = false;
   bool _isEditing = false;
 
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -79,13 +77,12 @@ class _OutputDisplayState extends State<OutputDisplay> {
       appBar: AppBar(
         title: const Center(child: Text("Story Generated")),
         actions: [
-          FloatingActionButton.small(
-            onPressed: () {
+          InkWell(
+            onTap: () {
               _finalScreen();
             },
-            backgroundColor: Colors.grey,
-            child: const Icon(Icons.music_note),
-          )
+            child: const Icon(Icons.queue_music_outlined),
+          ),
         ],
       ),
       body: SingleChildScrollView(
