@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 // ignore: must_be_immutable
 class FinalScreen extends StatefulWidget {
@@ -17,25 +18,60 @@ class FinalScreen extends StatefulWidget {
 }
 
 class _FinalScreenState extends State<FinalScreen> {
-  String selectLanguage = 'Hindi'; // Default Language
-  FlutterTts flutterTts = FlutterTts();
+  final FlutterTts _flutterTts = FlutterTts();
 
-  final List<String> language = [
-    'Hindi',
-    'English',
-    'French',
-    'Japanese',
-  ];
+  final Map<String, String> _languageMap = {
+    'en-US': 'English',
+    'hi-IN': 'Hindi',
+    'ur-PK': 'Urdu',
+    'ja-JP': 'Japanese',
+    'ko-KR': 'Korean',
+    'ru-Ru': 'Russian'
+  };
+  String _selectLanguage = 'en-US';
+
+  List<String> _language = [];
+  int? _currentWordStart, _currendWordEnd;
+
+  @override
+  void initState() {
+    super.initState();
+    initTts();
+  }
+
+  Future<void> initTts() async {
+    _flutterTts.setProgressHandler((text, start, end, word) {
+      _currentWordStart = start;
+      _currendWordEnd = end;
+    });
+
+    List<dynamic> availableLanguages = await _flutterTts.getLanguages;
+    _language = availableLanguages
+        .where((language) => _languageMap.keys.contains(language))
+        .map((language) => language as String)
+        .toList();
+    setState(() {});
+  }
+
   void _speak(String data) async {
-    await flutterTts.speak(data);
+    await _flutterTts.setLanguage(_selectLanguage);
+    await _flutterTts.speak(data);
   }
 
-  void _stop() async {
-    await flutterTts.stop();
+  void _save(String data) async {
+    await _flutterTts.setLanguage(_selectLanguage);
+    String timeSpamp = DateTime.now().millisecondsSinceEpoch.toString();
+    await _flutterTts.synthesizeToFile(data, "Story_File_$timeSpamp.mp3");
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("File Downloaded")));
   }
 
-  void _resume() {
-    flutterTts.continueHandler;
+  Future<void> _stop() async {
+    await _flutterTts.stop();
+  }
+
+  Future<void> _pasue() async {
+    _flutterTts.pause();
   }
 
   @override
@@ -49,53 +85,119 @@ class _FinalScreenState extends State<FinalScreen> {
           const SizedBox(width: 16),
           _buildDropdown(
             'Select Language',
-            language,
-            selectLanguage,
+            _language,
+            _selectLanguage,
             (value) {
               setState(() {
-                selectLanguage = value!;
+                _selectLanguage = value!;
               });
-              log(selectLanguage);
             },
           ),
           const SizedBox(height: 16),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             Center(
               child: Column(children: [
-                InkWell(
-                  onTap: () {
+                IconButton(
+                  onPressed: () {
                     _speak(widget.data);
                   },
-                  child: const Icon(Icons.play_arrow),
+                  icon: const Icon(
+                    Icons.play_arrow,
+                    color: Colors.green,
+                  ),
                 ),
-                const Text("Start"),
+                const Text(
+                  "Play",
+                  style: TextStyle(color: Colors.green),
+                ),
               ]),
             ),
             const SizedBox(width: 30),
             Center(
               child: Column(children: [
-                InkWell(
-                  onTap: () {
+                IconButton(
+                  onPressed: () {
+                    _pasue();
+                  },
+                  icon: const Icon(
+                    Icons.pause,
+                    color: Colors.lightGreen,
+                  ),
+                ),
+                const Text(
+                  "Pause",
+                  style: TextStyle(color: Colors.lightGreen),
+                ),
+              ]),
+            ),
+            const SizedBox(width: 30),
+            Center(
+              child: Column(children: [
+                IconButton(
+                  onPressed: () {
                     _stop();
                   },
-                  child: const Icon(Icons.stop),
+                  icon: const Icon(
+                    Icons.stop,
+                    color: Colors.red,
+                  ),
                 ),
-                const Text("Stop"),
-              ]),
-            ),
-            const SizedBox(width: 30),
-            Center(
-              child: Column(children: [
-                InkWell(
-                  onTap: () {
-                    _resume();
-                  },
-                  child: const Icon(Icons.stop),
+                const Text(
+                  "Stop",
+                  style: TextStyle(color: Colors.red),
                 ),
-                const Text("Resume"),
               ]),
             ),
           ]),
+          const SizedBox(height: 30),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.white70),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.data.substring(0, _currentWordStart),
+                        ),
+                        if (_currentWordStart != null)
+                          TextSpan(
+                            text: widget.data
+                                .substring(_currentWordStart!, _currendWordEnd),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                backgroundColor: Colors.purple),
+                          ),
+                        if (_currendWordEnd != null)
+                          TextSpan(
+                            text: widget.data.substring(_currendWordEnd!),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Column(children: [
+            IconButton(
+              onPressed: () {
+                _save(widget.data);
+              },
+              icon: const Icon(Icons.save),
+              color: Colors.grey,
+            ),
+            const Text(
+              "Save",
+              style: TextStyle(color: Colors.grey),
+            )
+          ])
         ],
       ),
     );
@@ -115,7 +217,7 @@ class _FinalScreenState extends State<FinalScreen> {
           items: items.map((item) {
             return DropdownMenuItem(
               value: item,
-              child: Text(item),
+              child: Text(_languageMap[item]!),
             );
           }).toList(),
         ),
