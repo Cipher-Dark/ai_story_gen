@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ai_story_gen/screens/output_screen.dart';
 import 'package:flutter/material.dart';
 import '../services/story_gen_service.dart'; // Import the API service
@@ -19,6 +17,7 @@ class _StoryInputPageState extends State<StoryInputPage> {
   final TextEditingController _promptController = TextEditingController();
   String selectedGenre = 'Fantasy'; // Default genre
   String selectedTheme = 'Adventure'; // Default theme
+  String selectLanguage = 'Hindi'; // Default language
   bool _isLoading = false;
 
   final List<String> genres = [
@@ -35,12 +34,15 @@ class _StoryInputPageState extends State<StoryInputPage> {
     'Suspense',
     'Tragedy'
   ];
+  final List<String> landuages = [
+    'Hindi',
+    'English',
+  ];
   // Method to generate a story by calling the API (uses service)
   Future<void> _generateStory() async {
     setState(() {
       _isLoading = true;
     });
-    log(_promptController.text);
     if (_promptController.text == '') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Center(child: Text('Enter a prompt'))),
@@ -56,6 +58,7 @@ class _StoryInputPageState extends State<StoryInputPage> {
         _promptController.text,
         selectedGenre,
         selectedTheme,
+        selectLanguage,
       );
       Navigator.push(
         context,
@@ -64,6 +67,7 @@ class _StoryInputPageState extends State<StoryInputPage> {
             data: story.toString(),
             selectedGenre: selectedGenre.toString(),
             selectedTheme: selectedTheme.toString(),
+            selectedlanguage: selectLanguage.toString(),
           ),
         ),
       );
@@ -123,6 +127,13 @@ class _StoryInputPageState extends State<StoryInputPage> {
                         _buildDropdown('Theme', themes, selectedTheme, (value) {
                   setState(() {
                     selectedTheme = value!;
+                  });
+                })),
+                Expanded(
+                    child: _buildDropdown('Language', landuages, selectLanguage,
+                        (value) {
+                  setState(() {
+                    selectLanguage = value!;
                   });
                 })),
               ],

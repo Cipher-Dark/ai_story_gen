@@ -1,5 +1,6 @@
-import 'package:ai_story_gen/screens/final_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ai_story_gen/screens/final_screen.dart';
 import 'package:ai_story_gen/services/story_gen_service.dart';
 
 // ignore: must_be_immutable
@@ -7,12 +8,14 @@ class OutputDisplay extends StatefulWidget {
   String data;
   final String selectedGenre;
   final String selectedTheme;
+  final String selectedlanguage;
   OutputDisplay({
-    super.key,
+    Key? key,
     required this.data,
     required this.selectedGenre,
     required this.selectedTheme,
-  });
+    required this.selectedlanguage,
+  }) : super(key: key);
 
   @override
   State<OutputDisplay> createState() => _OutputDisplayState();
@@ -52,7 +55,8 @@ class _OutputDisplayState extends State<OutputDisplay> {
       data1 = await StoryGenService.generateStory(
           "${_textEditingController.text} refresh it ",
           widget.selectedGenre,
-          widget.selectedTheme);
+          widget.selectedTheme,
+          widget.selectedlanguage);
       _textEditingController.text = data1!;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

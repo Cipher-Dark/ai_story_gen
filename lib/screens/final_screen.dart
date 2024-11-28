@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -150,32 +148,34 @@ class _FinalScreenState extends State<FinalScreen> {
           const SizedBox(height: 30),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
-            child: Container(
-              decoration: const BoxDecoration(color: Colors.white70),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: widget.data.substring(0, _currentWordStart),
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.white70),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.black,
                       ),
-                      if (_currentWordStart != null)
+                      children: <TextSpan>[
                         TextSpan(
-                          text: widget.data
-                              .substring(_currentWordStart!, _currendWordEnd),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.purple),
+                          text: widget.data.substring(0, _currentWordStart),
                         ),
-                      if (_currendWordEnd != null)
-                        TextSpan(
-                          text: widget.data.substring(_currendWordEnd!),
-                        )
-                    ],
+                        if (_currentWordStart != null)
+                          TextSpan(
+                            text: widget.data
+                                .substring(_currentWordStart!, _currendWordEnd),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                backgroundColor: Colors.purple),
+                          ),
+                        if (_currendWordEnd != null)
+                          TextSpan(
+                            text: widget.data.substring(_currendWordEnd!),
+                          )
+                      ],
+                    ),
                   ),
                 ),
               ),
