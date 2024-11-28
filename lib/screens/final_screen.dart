@@ -1,9 +1,7 @@
-import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 
 // ignore: must_be_immutable
 class FinalScreen extends StatefulWidget {
@@ -32,6 +30,7 @@ class _FinalScreenState extends State<FinalScreen> {
 
   List<String> _language = [];
   int? _currentWordStart, _currendWordEnd;
+  bool _isPlay = true;
 
   @override
   void initState() {
@@ -56,22 +55,33 @@ class _FinalScreenState extends State<FinalScreen> {
   void _speak(String data) async {
     await _flutterTts.setLanguage(_selectLanguage);
     await _flutterTts.speak(data);
+    isPlay();
+  }
+
+  void isPlay() {
+    setState(() {
+      _isPlay = !_isPlay;
+    });
   }
 
   void _save(String data) async {
     await _flutterTts.setLanguage(_selectLanguage);
     String timeSpamp = DateTime.now().millisecondsSinceEpoch.toString();
-    await _flutterTts.synthesizeToFile(data, "Story_File_$timeSpamp.mp3");
+    await _flutterTts.synthesizeToFile(data, "Story_File_$timeSpamp.mp4");
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("File Downloaded")));
   }
 
   Future<void> _stop() async {
     await _flutterTts.stop();
+    setState(() {
+      _isPlay = true;
+    });
   }
 
   Future<void> _pasue() async {
     _flutterTts.pause();
+    isPlay();
   }
 
   @override
@@ -99,38 +109,26 @@ class _FinalScreenState extends State<FinalScreen> {
               child: Column(children: [
                 IconButton(
                   onPressed: () {
-                    _speak(widget.data);
+                    _isPlay ? _speak(widget.data) : _pasue();
                   },
-                  icon: const Icon(
-                    Icons.play_arrow,
-                    color: Colors.green,
-                  ),
+                  icon: _isPlay
+                      ? const Icon(
+                          Icons.play_arrow,
+                          color: Colors.green,
+                        )
+                      : const Icon(
+                          Icons.pause,
+                          color: Colors.blue,
+                        ),
                 ),
-                const Text(
-                  "Play",
-                  style: TextStyle(color: Colors.green),
+                Text(
+                  _isPlay ? "Play" : "pause",
+                  style: _isPlay
+                      ? const TextStyle(color: Colors.green)
+                      : const TextStyle(color: Colors.blue),
                 ),
               ]),
             ),
-            const SizedBox(width: 30),
-            Center(
-              child: Column(children: [
-                IconButton(
-                  onPressed: () {
-                    _pasue();
-                  },
-                  icon: const Icon(
-                    Icons.pause,
-                    color: Colors.lightGreen,
-                  ),
-                ),
-                const Text(
-                  "Pause",
-                  style: TextStyle(color: Colors.lightGreen),
-                ),
-              ]),
-            ),
-            const SizedBox(width: 30),
             Center(
               child: Column(children: [
                 IconButton(
@@ -152,34 +150,32 @@ class _FinalScreenState extends State<FinalScreen> {
           const SizedBox(height: 30),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.white70),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: widget.data.substring(0, _currentWordStart),
-                        ),
-                        if (_currentWordStart != null)
-                          TextSpan(
-                            text: widget.data
-                                .substring(_currentWordStart!, _currendWordEnd),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                backgroundColor: Colors.purple),
-                          ),
-                        if (_currendWordEnd != null)
-                          TextSpan(
-                            text: widget.data.substring(_currendWordEnd!),
-                          )
-                      ],
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.white70),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
                     ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: widget.data.substring(0, _currentWordStart),
+                      ),
+                      if (_currentWordStart != null)
+                        TextSpan(
+                          text: widget.data
+                              .substring(_currentWordStart!, _currendWordEnd),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.purple),
+                        ),
+                      if (_currendWordEnd != null)
+                        TextSpan(
+                          text: widget.data.substring(_currendWordEnd!),
+                        )
+                    ],
                   ),
                 ),
               ),

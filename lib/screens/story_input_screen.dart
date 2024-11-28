@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ai_story_gen/screens/output_screen.dart';
 import 'package:flutter/material.dart';
 import '../services/story_gen_service.dart'; // Import the API service
@@ -38,6 +40,16 @@ class _StoryInputPageState extends State<StoryInputPage> {
     setState(() {
       _isLoading = true;
     });
+    log(_promptController.text);
+    if (_promptController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Center(child: Text('Enter a prompt'))),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
 
     try {
       String? story = await StoryGenService.generateStory(
