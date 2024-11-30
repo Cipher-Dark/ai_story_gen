@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class StoryGenService {
@@ -9,11 +12,9 @@ class StoryGenService {
       String genre,
       String theme,
       String language) async {
-    const String apiKey = 'AIzaSyBsc3eWVvEHui13suO5Xgy0p6ju6Y2vYt0';
-
     final model = GenerativeModel(
       model: 'gemini-1.5-pro',
-      apiKey: apiKey,
+      apiKey: dotenv.env["GEMINI_API_KEY"]!,
       generationConfig: GenerationConfig(
         temperature: 1,
         topK: 40,
