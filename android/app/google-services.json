@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "279595651002",
+    "project_id": "ai-story-generation-5e628",
+    "storage_bucket": "ai-story-generation-5e628.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279595651002:android:77193e3acf6df04d205783",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJydhnLoJI5o_oZPtqjTiytDKubUnyilM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
