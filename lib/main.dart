@@ -1,9 +1,14 @@
 import 'package:ai_story_gen/screens/login_screen.dart';
+import 'package:ai_story_gen/services/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'screens/story_input_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: ".env");
   runApp(const StoryGenApp());
 }

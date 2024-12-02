@@ -1,32 +1,13 @@
 {
   "project_info": {
-    "project_number": "279595651002",
-    "project_id": "ai-story-generation-5e628",
-    "storage_bucket": "ai-story-generation-5e628.firebasestorage.app"
+    "project_number": "391779423473",
+    "project_id": "ai-story-gen",
+    "storage_bucket": "ai-story-gen.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279595651002:android:77193e3acf6df04d205783",
-        "android_client_info": {
-          "package_name": "com.example.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJydhnLoJI5o_oZPtqjTiytDKubUnyilM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:279595651002:android:b55497748ffbb952205783",
+        "mobilesdk_app_id": "1:391779423473:android:d8c19c661ab2246d7d4550",
         "android_client_info": {
           "package_name": "com.sagar.ai_story_gen"
         }
@@ -34,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBJydhnLoJI5o_oZPtqjTiytDKubUnyilM"
+          "current_key": "AIzaSyDtZgDv6lmBEG0sCmbNqkvzbkO4cHiPtrM"
         }
       ],
       "services": {

@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBvZH2DCvRc6vmDLM4yM8IauJk6MH0FWaM',
-    appId: '1:279595651002:web:077cbebe933b57ac205783',
-    messagingSenderId: '279595651002',
-    projectId: 'ai-story-generation-5e628',
-    authDomain: 'ai-story-generation-5e628.firebaseapp.com',
-    storageBucket: 'ai-story-generation-5e628.firebasestorage.app',
-    measurementId: 'G-Y75Z0JJ75T',
+    apiKey: 'AIzaSyBZHaPDy15NMBhIKqNU5qDdEsOmPG1ox98',
+    appId: '1:391779423473:web:5d70bc2fbc7e1f147d4550',
+    messagingSenderId: '391779423473',
+    projectId: 'ai-story-gen',
+    authDomain: 'ai-story-gen.firebaseapp.com',
+    storageBucket: 'ai-story-gen.firebasestorage.app',
+    measurementId: 'G-0RT5T88SSM',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBJydhnLoJI5o_oZPtqjTiytDKubUnyilM',
-    appId: '1:279595651002:android:b55497748ffbb952205783',
-    messagingSenderId: '279595651002',
-    projectId: 'ai-story-generation-5e628',
-    storageBucket: 'ai-story-generation-5e628.firebasestorage.app',
+    apiKey: 'AIzaSyDtZgDv6lmBEG0sCmbNqkvzbkO4cHiPtrM',
+    appId: '1:391779423473:android:d8c19c661ab2246d7d4550',
+    messagingSenderId: '391779423473',
+    projectId: 'ai-story-gen',
+    storageBucket: 'ai-story-gen.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCEiKtWDGoMlh3pENsfn-5Tl3Zg_ScHJmg',
-    appId: '1:279595651002:ios:322078b11a634548205783',
-    messagingSenderId: '279595651002',
-    projectId: 'ai-story-generation-5e628',
-    storageBucket: 'ai-story-generation-5e628.firebasestorage.app',
+    apiKey: 'AIzaSyBqQjqm6pTtEnrLTYSVvyzt-AxUhAiLc_E',
+    appId: '1:391779423473:ios:5043c8099648cc407d4550',
+    messagingSenderId: '391779423473',
+    projectId: 'ai-story-gen',
+    storageBucket: 'ai-story-gen.firebasestorage.app',
     iosBundleId: 'com.example.aiStoryGen',
   );
 }

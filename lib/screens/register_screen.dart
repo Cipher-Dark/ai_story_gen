@@ -2,8 +2,6 @@ import 'package:ai_story_gen/screens/login_screen.dart';
 import 'package:ai_story_gen/screens/story_input_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_ui/flutter_auth_ui.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
@@ -83,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Form(
-          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,13 +170,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Column(
                 children: [
                   const SizedBox(height: 40),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 13.0, horizontal: 30.0),
-                    decoration: BoxDecoration(
-                        color: Colors.lightBlueAccent,
-                        borderRadius: BorderRadius.circular(30)),
+                  GestureDetector(
+                    onTap: () {
+                      registeration();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13.0, horizontal: 30.0),
+                      decoration: BoxDecoration(
+                          color: Colors.lightBlueAccent,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: const Center(
+                        child: Text(
+                          "Register",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -194,7 +205,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()));
                         },
-                        child: const Text("Login"),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                          ),
+                        ),
                       )
                     ],
                   ),
