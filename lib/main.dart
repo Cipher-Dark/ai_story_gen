@@ -23,15 +23,15 @@ class _StoryGenAppState extends State<StoryGenApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      home: StoryInputPage(
-        toggleTheme: () {
-          setState(() {
-            isDarkMode = !isDarkMode;
-          });
-        },
-        isDarkMode: isDarkMode,
-      ),
-      // home: const LoginScreen(),
+      // home: StoryInputPage(
+      //   toggleTheme: () {
+      //     setState(() {
+      //       isDarkMode = !isDarkMode;
+      //     });
+      //   },
+      //   isDarkMode: isDarkMode,
+      // ),
+      home: const LoginScreen(),
     );
   }
 }
